@@ -49,30 +49,20 @@ def predict_test(test, knn):
 # Write the output to a csv file
 def write_output(test, y_pred, output_filename):
     output = pd.DataFrame({'track_id': test['track_id'], 'genre_id': y_pred})
-    # Add 
-    # 113025,1
-    # 155298,1
-    # 155306,1
-    # To the output file
-    output = output.append({'track_id': 113025, 'genre_id': 1}, ignore_index=True)
-    output = output.append({'track_id': 155298, 'genre_id': 1}, ignore_index=True)
-    output = output.append({'track_id': 155306, 'genre_id': 1}, ignore_index=True)
-    output.to_csv('output_knn.csv', index=False)
+    # Add missing track IDs to the output file because messed up mfcc.
+    output = pd.concat([output, pd.DataFrame({'track_id': [113025, 155298, 155306], 'genre_id': [1, 1, 1]})])
+    output.to_csv(output_filename, index=False)
 
-
-if __name__ == '__main__':
-    train_filename = 'train_mfcc.csv'
-    test_filename = 'test_mfcc.csv'
-    output_filename = 'output_knn.csv'
-
+def main(train_filename='data/train_mfcc.csv', test_filename='data/test_mfcc.csv', output_filename='output/output_knn.csv'):
     print("Reading data...")
     train, test = read_data(train_filename, test_filename)
-    
     print("Training model...")
     knn = train_model(train)
-
     print("Predicting test data...")
     y_pred = predict_test(test, knn)
     write_output(test, y_pred, output_filename)
-
     print("Done!")
+
+
+if __name__ == '__main__':
+    main()
