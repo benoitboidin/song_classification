@@ -44,6 +44,9 @@ def read_mfcc_data(mfcc_train_dir, train, mfcc_test_dir, test):
     # Concatenate the mfcc features with the track id and genre id
     train = pd.concat([train, pd.DataFrame(train_mfcc)], axis=1)
     test = pd.concat([test, pd.DataFrame(test_mfcc)], axis=1)
+
+    train = train.fillna(0)
+    test = test.fillna(0)
     
     return train, test
 
