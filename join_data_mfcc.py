@@ -62,5 +62,7 @@ if __name__ == '__main__':
     print("Reading mfcc data...")
     train_mfcc, test_mfcc = read_mfcc_data(MFCC_TRAIN_DIR, train, MFCC_TEST_DIR, test)
 
-    print(train_mfcc)
-    print(test_mfcc)
+    print("Writing data...")
+    train_mfcc.to_csv('train_mfcc.csv', index=False)
+    test_mfcc.to_csv('test_mfcc.csv', index=False)
+    
