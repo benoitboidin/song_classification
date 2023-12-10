@@ -1,24 +1,15 @@
+"""
+Classify the data using KNN.
+Data is already split into train and test.
+"""
+
+
 import pandas as pd
 from sklearn.neighbors import KNeighborsClassifier
 from sklearn.model_selection import train_test_split
 from sklearn.metrics import accuracy_score
 from sklearn.metrics import confusion_matrix
 from sklearn.metrics import classification_report
-
-
-"""
-Classify the data using KNN.
-Data is already split into train and test.
-
-train.csv: 
-track_id, genre_id
-
-test.csv:
-track_id
-
-output_knn.csv:
-track_id, genre_id
-"""
 
 
 # Read the data
@@ -35,9 +26,9 @@ def train_model(train):
     knn = KNeighborsClassifier(n_neighbors=5)
     knn.fit(X_train, y_train)
     y_pred = knn.predict(X_test)
-    print("Accuracy:", accuracy_score(y_test, y_pred))
-    print("Confusion Matrix:\n", confusion_matrix(y_test, y_pred))
-    print("Classification Report:\n", classification_report(y_test, y_pred))
+    print("kNN Accuracy:", accuracy_score(y_test, y_pred))
+    print("kNN Confusion Matrix:\n", confusion_matrix(y_test, y_pred))
+    print("kNN Classification Report:\n", classification_report(y_test, y_pred))
     return knn
 
 # Predict the test data
@@ -53,16 +44,15 @@ def write_output(test, y_pred, output_filename):
     output = pd.concat([output, pd.DataFrame({'track_id': [113025, 155298, 155306], 'genre_id': [1, 1, 1]})])
     output.to_csv(output_filename, index=False)
 
-def main(train_filename='data/train_mfcc.csv', test_filename='data/test_mfcc.csv', output_filename='output/output_knn.csv'):
-    print("Reading data...")
-    train, test = read_data(train_filename, test_filename)
-    print("Training model...")
+def main(train_mfcc_filename, test_mfcc_filename, output_knn_filename):
+    print("\nkNN Reading data...")
+    train, test = read_data(train_mfcc_filename, test_mfcc_filename)
+    print("kNN Training model...")
     knn = train_model(train)
-    print("Predicting test data...")
+    print("kNN Predicting test data...")
     y_pred = predict_test(test, knn)
-    write_output(test, y_pred, output_filename)
-    print("Done!")
-
+    write_output(test, y_pred, output_knn_filename)
+    print("kNN Done!")
 
 if __name__ == '__main__':
-    main()
+    main('data/train_mfcc.csv', 'data/test_mfcc.csv', 'data/output_knn.csv')

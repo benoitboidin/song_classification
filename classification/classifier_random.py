@@ -1,9 +1,10 @@
-import csv
-import random
-
 """
 Create a random classification for test.csv file.
 """
+
+
+import csv
+import random
 
 
 def load_test_data(filename):
@@ -25,10 +26,8 @@ def write_to_csv(test_data, output_filename):
         writer = csv.writer(f)
         writer.writerows(test_data)
 
-
-if __name__ == "__main__":
-    filename = "test.csv"
-    output_filename = 'output/output_random.csv'
-    test_data = load_test_data(filename)
+def main(test_filename, output_random_filename):
+    print('\nRandom classification.')
+    test_data = load_test_data(test_filename)
     test_data = random_classification(test_data)
-    write_to_csv(test_data, output_filename)
+    write_to_csv(test_data, output_random_filename)

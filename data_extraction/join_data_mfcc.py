@@ -2,6 +2,7 @@
 Create a new dataset with the track id, genre id, and mfcc features.
 """
 
+
 import os
 import pandas as pd
 
@@ -35,19 +36,10 @@ def read_mfcc_data(mfcc_train_dir, train, mfcc_test_dir, test):
     return train, test
 
 def main(train_filename, test_filename, train_mfcc_filename, test_mfcc_filename, MFCC_TRAIN_DIR, MFCC_TEST_DIR):
-    print("Reading data...")
+    print("\nReading data...")
     train, test = read_data(train_filename, test_filename)
-    print("Reading mfcc data...")
+    print("Reading MFCC data...")
     train_mfcc, test_mfcc = read_mfcc_data(MFCC_TRAIN_DIR, train, MFCC_TEST_DIR, test)
-    print("Writing data...")
-    train_mfcc.to_csv(test_mfcc_filename, index=False)
-    test_mfcc.to_csv(train_mfcc_filename, index=False)
-    
-
-# if __name__ == '__main__':
-#     main(train_filename='data/train.csv', 
-#          test_filename='data/test.csv', 
-#          train_mfcc_filename='data/train_mfcc.csv', 
-#          test_mfcc_filename='data/test_mfcc.csv', 
-#          MFCC_TRAIN_DIR='data/mfcc/train/', 
-#          MFCC_TEST_DIR='data/mfcc/test/')
+    print("Writing concatenated MFCC data...")
+    train_mfcc.to_csv(train_mfcc_filename, index=False)
+    test_mfcc.to_csv(test_mfcc_filename, index=False)
