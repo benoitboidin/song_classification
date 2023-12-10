@@ -1,5 +1,10 @@
-# Beat tracking example
+"""
+https://librosa.org/doc/main/feature.html#
+"""
+
+
 import librosa
+
 
 def main(MUSIC_TRAIN_DIR):
     # Load the audio as a waveform `y` and sampling rate as `sr`
