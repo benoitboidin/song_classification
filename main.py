@@ -11,7 +11,8 @@ Soumettre sur le kaggle :
 
 RENDU 2 : 
 Utilisation de librosa (et/ou essentia) pour obtenir plus de features
-Utilisation de catboost / xgboost / lightgbm / réseau de neurones comme algo de classification
+Utilisation de catboost / xgboost / lightgbm / réseau de neurones 
+comme algo de classification
 Objectif : obtenir la meilleure classification possible sur kaggle.
 
 RENDU 3 :
