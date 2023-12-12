@@ -30,8 +30,8 @@ from data_extraction import join_data_mfcc, librosa_extractor
 if __name__ == '__main__':
 
     # FEATURE EXTRACTION
-    # librosa_extractor.features_to_csv(config.MUSIC_TRAIN_DIR,
-    #                                 config.train_librosa_features)
+    librosa_extractor.features_to_csv(config.MUSIC_TRAIN_DIR,
+                                    config.train_librosa_features)
     # librosa_extractor.features_to_csv(config.MUSIC_TEST_DIR,
     #                                 config.test_librosa_features)
     
@@ -46,7 +46,7 @@ if __name__ == '__main__':
     # CLASSIFICATION
     # classifier_random.main(config.test_filename,
     #                         config.output_random_filename)
-    classifier_knn.main(config.train_mfcc_filename,
-                        config.test_mfcc_filename,
-                        config.output_knn_filename)
+    # classifier_knn.main(config.train_mfcc_filename,
+    #                     config.test_mfcc_filename,
+    #                     config.output_knn_filename)
     
