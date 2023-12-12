@@ -1,5 +1,5 @@
 """
-Classify the data using KNN.
+Classify music tracks using KNN.
 Data is already split into train and test.
 """
 
