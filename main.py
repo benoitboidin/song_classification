@@ -23,25 +23,25 @@ Objectif : obtenir la meilleure classification possible sur kaggle.
 """
 
 import config
-from classification import classifier_knn, classifier_random
-from data_extraction import join_data_mfcc, librosa_extractor
+from classifiers import classifier_knn, classifier_random, classifier_catboost
+from data_extractors import concat_features, librosa_extractor
 
 
 if __name__ == '__main__':
 
     # FEATURE EXTRACTION
-    librosa_extractor.features_to_csv(config.MUSIC_TRAIN_DIR,
-                                    config.train_librosa_features)
+    # librosa_extractor.features_to_csv(config.MUSIC_TRAIN_DIR,
+    #                                 config.train_librosa_features)
     # librosa_extractor.features_to_csv(config.MUSIC_TEST_DIR,
     #                                 config.test_librosa_features)
     
     # DATA EXTRACTION
-    # join_data_mfcc.main(config.train_filename, 
-    #                                     config.test_filename, 
-    #                                     config.train_mfcc_filename, 
-    #                                     config.test_mfcc_filename, 
-    #                                     config.MFCC_TRAIN_DIR, 
-    #                                     config.MFCC_TEST_DIR)
+    # concat_features.main(config.train_filename, 
+    #                     config.test_filename, 
+    #                     config.train_mfcc_filename, 
+    #                     config.test_mfcc_filename, 
+    #                     config.MFCC_TRAIN_DIR, 
+    #                     config.MFCC_TEST_DIR)
     
     # CLASSIFICATION
     # classifier_random.main(config.test_filename,
@@ -49,4 +49,7 @@ if __name__ == '__main__':
     # classifier_knn.main(config.train_mfcc_filename,
     #                     config.test_mfcc_filename,
     #                     config.output_knn_filename)
+    classifier_catboost.main(config.train_mfcc_filename,
+                            config.test_mfcc_filename,
+                            config.output_catboost_filename)
     
