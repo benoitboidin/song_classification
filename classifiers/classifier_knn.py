@@ -19,12 +19,12 @@ def read_data(train_filename, test_filename):
     return train, test
 
 # Train the model
-def train_model(train):
+def train_model(train, neighbors=5):
     X = train.drop(['genre_id'], axis=1)
     X = X.drop(['track_id'], axis=1)
     y = train['genre_id']
     X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2)
-    knn = KNeighborsClassifier(n_neighbors=5)
+    knn = KNeighborsClassifier(n_neighbors=neighbors)
     knn.fit(X_train, y_train)
     y_pred = knn.predict(X_test)
     print("Accuracy:", accuracy_score(y_test, y_pred))
@@ -35,6 +35,7 @@ def train_model(train):
 # Predict the test data
 def predict_test(test, knn):
     X = test
+    X = X.drop(['track_id'], axis=1)
     y_pred = knn.predict(X)
     return y_pred
 
@@ -63,4 +64,4 @@ def main(train_filename, test_filename, output_filename):
 
 
 if __name__ == '__main__':
-    main('data/train_mfcc.csv', 'data/test_mfcc.csv', 'data/output_knn.csv')
+    main('data/train_librosa_features.csv', 'data/test_librosa_features.csv', 'data/output_knn.csv')

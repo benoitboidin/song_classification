@@ -2,8 +2,10 @@
 File paths.
 """
 
+# Audio files
 MUSIC_TEST_DIR = 'data/test.nosync/Test/'
 MUSIC_TRAIN_DIR = 'data/train.nosync/Train/'
+
 
 MFCC_TEST_DIR = 'data/mfcc/test/'
 MFCC_TRAIN_DIR = 'data/mfcc/train/'
