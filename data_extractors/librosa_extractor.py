@@ -5,6 +5,7 @@ https://librosa.org/doc/main/feature.html#
 import librosa
 import os
 import numpy as np
+import threading
 
 
 def track_features(MUSIC_TRAIN_DIR, filename):
@@ -17,7 +18,7 @@ def track_features(MUSIC_TRAIN_DIR, filename):
     feature_spectral_contrast = librosa.feature.spectral_contrast(y=waveform, sr=sample_rate)  # ?
     feature_zcr = librosa.feature.zero_crossing_rate(y=waveform)  # ?
 
-    # Put it in a dict. 
+    # Put it in a dict.
     features = {
         'tempo': feature_tempo,
         'chroma': np.asarray(feature_chroma).mean(axis=1),
@@ -44,31 +45,33 @@ def features_to_csv(MUSIC_DIR, output_filename):
         f.write('\n')
 
         nb_file = 0
-        features = np.array([])
+        rows = []
 
         for track_file in os.listdir(MUSIC_DIR):
             nb_file += 1
-
             try:
                 features = track_features(MUSIC_DIR, track_file)
-                row = [track_file.replace('.mp3', '')] + features['tempo'].tolist() + features['chroma'].tolist() + \
+                # TODO: add genre_id to row.
+                rows.append([track_file.replace('.mp3', '')] + features['tempo'].tolist() + features['chroma'].tolist() + \
                       features['spectral_centroid'].tolist() + features['spectral_contrast'].tolist() + features[
-                          'zcr'].tolist() + '\n'
-                
-                # f.write(str(row))
-                features = np.append(features, row)
+                          'zcr'].tolist())
             except Exception as e:
                 print('Error at file: {}'.format(nb_file))
                 print(e)
 
             print('Progress: {}/{}'.format(nb_file, len([_ for _ in os.listdir(MUSIC_DIR)])), flush=True, end='\r')
 
-        # Add missing lines. 
-        
+        # Add missing lines with track_id 113025, 155298, 155306
+        rows.append(['113025'] + [0] * 22)
+        rows.append(['155298'] + [0] * 22)
+        rows.append(['155306'] + [0] * 22)
 
-        features = np.append(features, 
-        
-        
+        # Sort rows by track_id.
+        rows.sort(key=lambda x: int(x[0]))
+
+        for row in rows:
+            f.write(str(row))
+            f.write('\n')
 
 
 if __name__ == '__main__':
@@ -86,4 +89,4 @@ if __name__ == '__main__':
     # print(features['zcr'])
 
     # Extract librosa features from all tracks and save to csv.
-    features_to_csv('data/test.nosync/Test/', 'data/test_librosa_features.csv')
+    features_to_csv('data/train.nosync/Train/', 'data/train_librosa_features_sorted.csv')

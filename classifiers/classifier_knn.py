@@ -19,7 +19,7 @@ def read_data(train_filename, test_filename):
     return train, test
 
 # Train the model
-def train_model(train, neighbors=5):
+def train_model(train, neighbors=30):
     X = train.drop(['genre_id'], axis=1)
     X = X.drop(['track_id'], axis=1)
     y = train['genre_id']
@@ -46,13 +46,10 @@ def write_output(test, y_pred, output_filename):
 
 
 def main(train_filename, test_filename, output_filename):
-    train_filename = 'data/train_mfcc.csv'
-    test_filename = 'data/test_mfcc.csv'
-    output_filename = 'output/output_knn.csv'
 
     print("Reading data...")
     train, test = read_data(train_filename, test_filename)
-    
+
     print("Training model...")
     knn = train_model(train)
 
@@ -64,4 +61,6 @@ def main(train_filename, test_filename, output_filename):
 
 
 if __name__ == '__main__':
-    main('data/train_librosa_features.csv', 'data/test_librosa_features.csv', 'data/output_knn.csv')
+    main('data/train_librosa_features_sorted.csv',
+         'data/test_librosa_features_sorted.csv',
+         'output/output_knn.csv')

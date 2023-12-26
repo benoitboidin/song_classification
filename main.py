@@ -24,7 +24,7 @@ Objectif : obtenir la meilleure classification possible sur kaggle.
 
 import config
 from classifiers import classifier_knn, classifier_random, classifier_catboost
-from data_extractors import concat_features, librosa_extractor
+from data_extractors import concat_features, concat_features_pd, librosa_extractor
 
 
 if __name__ == '__main__':
@@ -42,14 +42,17 @@ if __name__ == '__main__':
     #                     config.test_mfcc_filename, 
     #                     config.MFCC_TRAIN_DIR, 
     #                     config.MFCC_TEST_DIR)
+    # concat_features_pd.main('data/train_mfcc.csv',
+    #                         'data/train_librosa_features_sorted.csv',
+    #                         'data/concat_output.csv')
     
     # CLASSIFICATION
     # classifier_random.main(config.test_filename,
     #                         config.output_random_filename)
-    # classifier_knn.main(config.train_mfcc_filename,
-    #                     config.test_mfcc_filename,
-    #                     config.output_knn_filename)
-    classifier_catboost.main(config.train_mfcc_filename,
-                            config.test_mfcc_filename,
-                            config.output_catboost_filename)
+    classifier_knn.main('data/train_features.csv',
+                        'data/test_features.csv',
+                        config.output_knn_filename)
+    # classifier_catboost.main(config.train_mfcc_filename,
+    #                         config.test_mfcc_filename,
+    #                         config.output_catboost_filename)
     
