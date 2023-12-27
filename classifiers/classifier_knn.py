@@ -45,11 +45,11 @@ def write_output(test, y_pred, output_filename):
     output.to_csv(output_filename, index=False)
 
 
-def main(train_filename, test_filename, output_filename):
+def main(train_filename, test_filename, output_filename, neighbors):
     print("Reading data...")
     train, test = read_data(train_filename, test_filename)
     print("Training model...")
-    knn = train_model(train)
+    knn = train_model(train, neighbors=neighbors)
     print("Predicting test data...")
     y_pred = predict_test(test, knn)
     write_output(test, y_pred, output_filename)
@@ -57,6 +57,7 @@ def main(train_filename, test_filename, output_filename):
 
 
 if __name__ == '__main__':
-    main('data/train_mfcc.csv',
-         'data/test_mfcc.csv',
-         'output/output_knn.csv')
+    main('data/train_features.csv',
+         'data/test_features.csv',
+         'output/output_knn.csv',
+            15)

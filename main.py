@@ -43,15 +43,19 @@ if __name__ == '__main__':
     #                     config.MFCC_TRAIN_DIR, 
     #                     config.MFCC_TEST_DIR)
     # concat_features_pd.main('data/train_mfcc.csv',
-    #                         'data/train_librosa_features_sorted.csv',
-    #                         'data/concat_output.csv')
+    #                         'data/train_librosa.csv',
+    #                         'data/train_features.csv')
+    # concat_features_pd.main('data/test_mfcc.csv',
+    #                         'data/test_librosa.csv',
+    #                         'data/test_features.csv')
     
     # CLASSIFICATION
     # classifier_random.main(config.test_filename,
     #                         config.output_random_filename)
-    classifier_knn.main('data/train_features.csv',
-                        'data/test_features.csv',
-                        config.output_knn_filename)
+    classifier_knn.main('data/train_librosa.csv',
+                        'data/test_librosa.csv',
+                        config.output_knn_filename,
+                        neighbors=15)
     # classifier_catboost.main(config.train_mfcc_filename,
     #                         config.test_mfcc_filename,
     #                         config.output_catboost_filename)
