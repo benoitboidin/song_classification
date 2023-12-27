@@ -3,7 +3,7 @@ import os
 
 if __name__ == '__main__':
 
-    # Get data from files.
+    # Get data from files (it's supposed to be sorted)
     mfcc_test = []
     filenames = sorted(os.listdir('data/mfcc/test'))
     for file in filenames:

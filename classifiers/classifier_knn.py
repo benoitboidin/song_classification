@@ -19,10 +19,10 @@ def read_data(train_filename, test_filename):
     return train, test
 
 # Train the model
-def train_model(train, neighbors=30):
+def train_model(train, neighbors=1):
+    y = train['genre_id']
     X = train.drop(['genre_id'], axis=1)
     X = X.drop(['track_id'], axis=1)
-    y = train['genre_id']
     X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2)
     knn = KNeighborsClassifier(n_neighbors=neighbors)
     knn.fit(X_train, y_train)
@@ -42,25 +42,21 @@ def predict_test(test, knn):
 # Write the output to a csv file
 def write_output(test, y_pred, output_filename):
     output = pd.DataFrame({'track_id': test['track_id'], 'genre_id': y_pred})
-    output.to_csv('output_knn.csv', index=False)
+    output.to_csv(output_filename, index=False)
 
 
 def main(train_filename, test_filename, output_filename):
-
     print("Reading data...")
     train, test = read_data(train_filename, test_filename)
-
     print("Training model...")
     knn = train_model(train)
-
     print("Predicting test data...")
     y_pred = predict_test(test, knn)
     write_output(test, y_pred, output_filename)
-
     print("Done!")
 
 
 if __name__ == '__main__':
-    main('data/train_librosa_features_sorted.csv',
-         'data/test_librosa_features_sorted.csv',
+    main('data/train_mfcc.csv',
+         'data/test_mfcc.csv',
          'output/output_knn.csv')

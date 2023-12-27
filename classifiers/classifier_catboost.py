@@ -43,10 +43,7 @@ def write_output(test, y_pred, output_filename):
     output.to_csv('output_catboost.csv', index=False)
 
 def main(train_filename, test_filename, output_filename):
-    train_filename = 'data/train_mfcc.csv'
-    test_filename = 'data/test_mfcc.csv'
-    output_filename = 'output/output_catboost.csv'
-
+    
     print("Reading data...")
     train, test = read_data(train_filename, test_filename)
     
