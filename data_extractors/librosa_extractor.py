@@ -10,6 +10,7 @@ import numpy as np
 import pandas as pd
 import threading
 import csv
+import sys
 
 
 """
@@ -60,17 +61,14 @@ Extract features from a list of tracks using librosa library.
 """
 def get_tracks_features(tracks_dir, tracks_list):
     features = []
-    test = 3
     for track in tracks_list:
-        if test == 0:
-            break
-        test -= 1
         filepath = os.path.join(tracks_dir, track) + '.mp3'
-        features.append(get_track_features(filepath))
-    # print('Progress: {}/{}'.format(track, len([_ for _ in os.listdir(tracks_dir)])), flush=True, end='\r')
-        print()
-        print(track)
-        print(features)
+        try:
+            features.append(get_track_features(filepath))
+        except:
+            features.append([track] + [0 for i in range(0, 42)])
+        sys.stdout.write("\rFile {}".format(track) )
+        sys.stdout.flush()
 
     # Sort features by track name.
     features_df = pd.DataFrame(np.array(features), columns=get_features_header())
@@ -82,6 +80,7 @@ def get_tracks_features(tracks_dir, tracks_list):
 
 if __name__ == '__main__': 
     # Test
+    print('Test')
     tracks_dir = '/Users/benoitboidin/Desktop/s9_info/traitement_son_musique/project/data/test.nosync/Test'
     tracks_list = []
     with open('data/test.csv', 'r') as csvfile:
@@ -94,6 +93,7 @@ if __name__ == '__main__':
     features.to_csv('data/test_features.csv', index=False)
 
     # Train
+    print('Train')
     tracks_dir = '/Users/benoitboidin/Desktop/s9_info/traitement_son_musique/project/data/train.nosync/Train'
     tracks_list = []
     with open('data/train.csv', 'r') as csvfile:
