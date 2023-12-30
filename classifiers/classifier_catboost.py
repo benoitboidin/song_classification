@@ -19,7 +19,7 @@ def train_model(train, train_labels):
     X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2)
 
     model = cbt.CatBoostClassifier(
-        iterations=1000,
+        iterations=300,
         learning_rate=0.1,
         depth=6,
         loss_function='MultiClass',
