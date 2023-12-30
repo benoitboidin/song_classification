@@ -24,7 +24,7 @@ Objectif : obtenir la meilleure classification possible sur kaggle.
 
 import config
 from classifiers import classifier_knn, classifier_random, classifier_catboost
-from data_extractors import concat_features, concat_features_pd, librosa_extractor
+from data_extractors import librosa_extractor
 
 
 if __name__ == '__main__':
@@ -35,3 +35,5 @@ if __name__ == '__main__':
     # DATA EXTRACTION
 
     # CLASSIFICATION
+    classifier_random.main('data/test.csv',
+                            'output/output_random.csv')
