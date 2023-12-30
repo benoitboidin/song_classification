@@ -28,38 +28,47 @@ def train_model(train, train_labels):
         y_train = encoder.fit_transform(y_train)
         y_test = encoder.fit_transform(y_test)
 
-        # Define the model
+        # # Define the model
         model = tf.keras.Sequential([
             tf.keras.layers.Dense(256, activation='relu'),
-            tf.keras.layers.Dense(256, activation='relu'),
+            tf.keras.layers.Dense(128, activation='relu'),
             tf.keras.layers.Dense(8, activation='softmax')
         ])
 
         # Compile the model
         model.compile(optimizer='adam',
-                    loss='mean_squared_error')
+                    loss='categorical_crossentropy',
+                    metrics=['accuracy'])
 
         # Train the model
-        model.fit(X_train, y_train, epochs=10)
+        model.fit(X_train, y_train, epochs=15)
 
         # Display accuray
         print('Model is fitted: ' + str(model.built))
         print('Model params:')
-        print(model.get_config())
-        print('Model train accuracy: ' + str(model.evaluate(X_test, y_test)))
+        # print(model.get_config())
+        print('Model train accuracy: ' + str(model.evaluate(X_test, y_test)[1]))
 
         return model
 
-# Predict the test data
+# Predict test data
 def predict_test(test, model):
-    X = test
-    y = model.predict(X)
-    return np.hstack(y)
 
-# Write the output to a csv file
+    X = test
+
+    # Predict test data
+    y_pred = model.predict(X)
+
+    # Convert predictions to labels
+    y_pred = np.argmax(y_pred, axis=1)
+
+    return y_pred
+
+# Write output
 def write_output(test, y_pred, output_filename):
-    output = pd.DataFrame({'track_id': test['track_id'], 
-                           'genre_id': y_pred})
+
+    # Write output
+    output = pd.DataFrame({'track_id': test.track_id, 'genre_id': y_pred})
     output.to_csv(output_filename, index=False)
 
 def main(train_filename, test_filename, output_filename):
