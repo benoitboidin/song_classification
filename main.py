@@ -19,7 +19,6 @@ RENDU 3 :
 Utilisation des melspectrogrammes en entrée
 Utilisation de Deep Learning
 Objectif : obtenir la meilleure classification possible sur kaggle.
-
 """
 
 import config

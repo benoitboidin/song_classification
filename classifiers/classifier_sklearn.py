@@ -48,10 +48,22 @@ def train_model(train, train_labels):
 
         # Define the model
         model = tf.keras.Sequential([
-            tf.keras.layers.Dense(256, activation='relu'),
-            tf.keras.layers.Dense(128, activation='relu'),
-            tf.keras.layers.Dense(8, activation='softmax'),
+            tf.keras.layers.Dense(128, activation='relu'), #, kernel_regularizer=tf.keras.regularizers.l2(0.001)),
+            tf.keras.layers.Dropout(0.2),
+            tf.keras.layers.Dense(128, activation='relu'), #, kernel_regularizer=tf.keras.regularizers.l2(0.001)),
+            tf.keras.layers.Dropout(0.2),
+            tf.keras.layers.Dense(8, activation='softmax')
         ])
+
+        # model = tf.keras.Sequential([
+        #     tf.keras.layers.Dense(64, activation='relu', kernel_regularizer=tf.keras.regularizers.l2(0.001)),
+        #     tf.keras.layers.Dropout(0.4),
+        #     tf.keras.layers.Dense(32, activation='relu', kernel_regularizer=tf.keras.regularizers.l2(0.001)),
+        #     tf.keras.layers.Dropout(0.4),
+        #     tf.keras.layers.Dense(16, activation='relu', kernel_regularizer=tf.keras.regularizers.l2(0.001)),
+        #     tf.keras.layers.Dropout(0.4),
+        #     tf.keras.layers.Dense(8, activation='softmax')
+        # ])
 
         # Compile the model
         model.compile(optimizer='adam',
@@ -59,8 +71,12 @@ def train_model(train, train_labels):
                     metrics=['accuracy'])
 
         # Train the model
-        model.fit(X_train, y_train, batch_size=8, epochs=8)
-
+        model.fit(X_train, 
+                y_train, 
+                batch_size=8,
+                epochs=10, 
+                validation_data=(X_test, y_test))
+        
         # Display accuray
         print('Model is fitted: ' + str(model.built))
         print('Model params:')
@@ -72,42 +88,48 @@ def train_model(train, train_labels):
 # Predict test data
 def predict_test(test, model):
     X = test
-    # Predict test data
+    X = X.reshape(-1, 31*128)
+    X = X / 255.0
     y_pred = model.predict(X)
-    # Convert predictions to labels
     y_pred = np.argmax(y_pred, axis=1)
 
     return y_pred
 
 # Write output
 def write_output(test, y_pred, output_filename):
+    # Append missing lines, 098559, 098571, 98565, 98568, 98569
+    test = np.append(test, ['098559', 
+                            '098571', 
+                            '98565', 
+                            '98568', 
+                            '98569']) 
+    y_pred = np.append(y_pred, [1, 1, 1, 1, 1])
+
+    # Add 1 to every genre
+    y_pred = y_pred + 1
 
     # Write output
-    output = pd.DataFrame({'track_id': test.track_id, 'genre_id': y_pred})
+    output = pd.DataFrame({'track_id': test, 'genre_id': y_pred})
     output.to_csv(output_filename, index=False)
 
 def main(train_filename, test_filename, output_filename):
 
     print("Reading data...")
-    # train = pd.read_csv(train_filename)
-    # train_labels = pd.read_csv('data/train.csv').genre_id
-    test = pd.read_csv(test_filename)
-    x_train, y_train, x_test, _ = vggish.get_data('data/train_id_genres_vgg.pickle', 
-                                              'data/test_id_vgg.pickle')
+    x_train, y_train, x_test, ids = vggish.get_data(train_filename, test_filename)
 
     print("\nTraining model...")
     model = train_model(x_train, y_train)
 
-    # print("\nPredicting test data...")
-    # y_pred = predict_test(x_test, model)
+    print("\nPredicting test data...")
+    y_pred = predict_test(x_test, model)
 
-    # print("\nWriting output...")
-    # write_output(test, y_pred, output_filename)
+    print("\nWriting output...")
+    write_output(ids, y_pred, output_filename)
 
     # print("Done.")
 
 
 if __name__ == '__main__': 
-    main('data/train_features.csv', 
-         'data/test_features.csv', 
-         'data/output_tensorflow.csv')
+    main('data/train_id_genres_vgg.pickle', 
+        'data/test_id_vgg.pickle', 
+         'output/output_tensorflow.csv')

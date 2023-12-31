@@ -24,8 +24,7 @@ def train_model(train, train_labels):
         depth=6,
         loss_function='MultiClass',
         eval_metric='Accuracy',
-        random_seed=42,
-        logging_level='Silent'
+        random_seed=42
     )
     # train the model
     model.fit(X_train, y_train, eval_set=(X_test, y_test), plot=True)

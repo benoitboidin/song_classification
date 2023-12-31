@@ -17,11 +17,11 @@ def get_data(train_filename='train_id_genres_vgg.pickle', test_filename='test_id
 
     # Example
     TRACK_NUMBER = 10
-    print('\n TRAIN DATASET')
-    print("track n°", TRACK_NUMBER)
-    print("Song genres ", genres[TRACK_NUMBER])
-    print("Embed shape ", embed[TRACK_NUMBER].shape)
-    print("Embed ", embed[TRACK_NUMBER])
+    # print('\n TRAIN DATASET')
+    # print("track n°", TRACK_NUMBER)
+    # print("Song genres ", genres[TRACK_NUMBER])
+    # print("Embed shape ", embed[TRACK_NUMBER].shape)
+    # print("Embed ", embed[TRACK_NUMBER])
 
     x_train = np.array(embed)
     y_train = np.array(genres)
@@ -36,11 +36,11 @@ def get_data(train_filename='train_id_genres_vgg.pickle', test_filename='test_id
 
     # Example
     TRACK_NUMBER = 10
-    print('\n TEST DATASET')
-    print("track n°", TRACK_NUMBER)
-    print("Song id ", ids[TRACK_NUMBER])
-    print("Embed shape ", embed[TRACK_NUMBER].shape)
-    print("Embed ", embed[TRACK_NUMBER])
+    # print('\n TEST DATASET')
+    # print("track n°", TRACK_NUMBER)
+    # print("Song id ", ids[TRACK_NUMBER])
+    # print("Embed shape ", embed[TRACK_NUMBER].shape)
+    # print("Embed ", embed[TRACK_NUMBER])
 
     embed = np.array(embed)
     ids = np.array(ids)
