@@ -26,19 +26,19 @@ def train_model(train, train_labels):
 
         X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2)
 
-        # # Reshape the data
+        # Reshape the data
         X_train = X_train.reshape(-1, 31*128)
         X_test = X_test.reshape(-1, 31*128)
 
-        # # # Normalize the data
+        # Normalize the data
         X_train = X_train / 255.0
         X_test = X_test / 255.0
 
-        # # Reshape the labels
+        # Reshape the labels
         y_train = y_train.reshape(-1, 1)
         y_test = y_test.reshape(-1, 1)
 
-        # # One hot encode the labels
+        # One hot encode the labels
         encoder = LabelBinarizer()
         y_train = encoder.fit_transform(y_train)
         y_test = encoder.fit_transform(y_test)
@@ -46,27 +46,12 @@ def train_model(train, train_labels):
         y_train = y_train.reshape(-1, 8)
         y_test = y_test.reshape(-1, 8)
 
-        # # # Define the model
+        # Define the model
         model = tf.keras.Sequential([
             tf.keras.layers.Dense(256, activation='relu'),
             tf.keras.layers.Dense(128, activation='relu'),
             tf.keras.layers.Dense(8, activation='softmax'),
         ])
-
-        # # One hot encode the labels
-        # # encoder = LabelBinarizer()
-        # # y_train = encoder.fit_transform(y_train)
-        # # y_test = encoder.fit_transform(y_test)
-
-        # # y_train = y_train.reshape(-1, 8)
-        # # y_test = y_test.reshape(-1, 8)
-
-        # # # Define the model
-        # model = tf.keras.Sequential([
-        #     tf.keras.layers.Dense(256, activation='relu'),
-        #     tf.keras.layers.Dense(128, activation='relu'),
-        #     tf.keras.layers.Dense(8, activation='softmax'),
-        # ])
 
         # Compile the model
         model.compile(optimizer='adam',
@@ -74,7 +59,7 @@ def train_model(train, train_labels):
                     metrics=['accuracy'])
 
         # Train the model
-        model.fit(X_train, y_train, batch_size=32, epochs=40)
+        model.fit(X_train, y_train, batch_size=8, epochs=8)
 
         # Display accuray
         print('Model is fitted: ' + str(model.built))
