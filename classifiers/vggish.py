@@ -1,7 +1,9 @@
+import tensorflow as tf
+import numpy as np
 import pickle
 
 
-def load_data(train_filename='train_id_genres_vgg.pickle', test_filename='test_id_vgg.pickle'):
+def get_data(train_filename='train_id_genres_vgg.pickle', test_filename='test_id_vgg.pickle'):
     # Train dataset : list of (id, genre, embed)
     data = pickle.load(open(train_filename,'rb'))
 
@@ -10,18 +12,17 @@ def load_data(train_filename='train_id_genres_vgg.pickle', test_filename='test_i
     embed = [x[2] for x in data]
 
     #one hot encoding
-    import tensorflow as tf
     genres = [int(x)-1 for x in genres]
     genres = tf.keras.utils.to_categorical(genres)
 
     # Example
     TRACK_NUMBER = 10
+    print('\n TRAIN DATASET')
     print("track n°", TRACK_NUMBER)
     print("Song genres ", genres[TRACK_NUMBER])
     print("Embed shape ", embed[TRACK_NUMBER].shape)
     print("Embed ", embed[TRACK_NUMBER])
 
-    import numpy as np
     x_train = np.array(embed)
     y_train = np.array(genres)
     print(x_train.shape, y_train.shape)
@@ -35,12 +36,12 @@ def load_data(train_filename='train_id_genres_vgg.pickle', test_filename='test_i
 
     # Example
     TRACK_NUMBER = 10
+    print('\n TEST DATASET')
     print("track n°", TRACK_NUMBER)
     print("Song id ", ids[TRACK_NUMBER])
     print("Embed shape ", embed[TRACK_NUMBER].shape)
     print("Embed ", embed[TRACK_NUMBER])
 
-    import numpy as np
     embed = np.array(embed)
     ids = np.array(ids)
     print(embed.shape, ids.shape)
@@ -51,10 +52,15 @@ def load_data(train_filename='train_id_genres_vgg.pickle', test_filename='test_i
 if __name__ == '__main__': 
     print('Start...')
 
-    x_train, y_train, x_test, ids = load_data('data/train_id_genres_vgg.pickle', 
+    x_train, y_train, x_test, ids = get_data('data/train_id_genres_vgg.pickle', 
                                               'data/test_id_vgg.pickle')
 
-    print(x_train)
-    print(y_train)
-    print(x_test)
-    print(ids)
+    print('------------------')
+    print(x_train.shape)
+    print('------------------')
+    # print(y_train)
+    # print('------------------')
+    print(x_test.shape)
+    print('------------------')
+    # print(ids)
+    # print('------------------')
